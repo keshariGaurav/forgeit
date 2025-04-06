@@ -1,0 +1,13 @@
+{
+  "name": "recommendation-service",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uvicorn main:app --reload",
+        "cwd": "packages/recommendation-service"
+      }
+    }
+  },
+  "tags": ["type:backend", "lang:python"]
+}

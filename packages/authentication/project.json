@@ -1,0 +1,13 @@
+{
+  "name": "authentication",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "go run main.go",
+        "cwd": "packages/authentication"
+      }
+    }
+  },
+  "tags": ["type:backend", "lang:go"]
+}

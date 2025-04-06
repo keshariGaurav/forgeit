@@ -40,3 +40,60 @@ Thumbs.db
 
 .nx/cache
 .nx/workspace-data
+
+# 🔧 Node (NestJS)
+node_modules/
+dist/
+.cache/
+coverage/
+
+# 📦 Nx specific
+nx-report.html
+tmp/
+.DS_Store
+
+# 🐍 Python
+**/__pycache__/
+**/*.py[cod]
+**/*.pyo
+*.pyc
+*.pyd
+*.pyo
+*.egg-info/
+.env
+venv/
+.env.*
+venv/
+pip-wheel-metadata/
+*.egg
+.eggs/
+
+# 🦫 Go
+**/*.exe
+**/*.exe~
+**/*.dll
+**/*.so
+**/*.dylib
+**/*.test
+*.out
+vendor/
+bin/
+pkg/
+build/
+
+# 💻 System/IDE Files
+.vscode/
+.idea/
+*.log
+*.swp
+*.tmp
+*.bak
+
+# 🚀 OS-specific
+.DS_Store
+Thumbs.db
+
+# 🔐 Secrets (if any)
+.env
+.env.local
+
