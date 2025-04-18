@@ -2,6 +2,7 @@ package configs
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -11,7 +12,7 @@ import (
 
 const (
 	databaseName      = "golangAPI"
-	connectionTimeout = 10 * time.Second
+	connectionTimeout = 20 * time.Second
 )
 
 // ConnectDB establishes connection with MongoDB
@@ -20,6 +21,7 @@ func ConnectDB() *mongo.Client {
 	defer cancel()
 
 	// Configure MongoDB client
+	fmt.Println("🔗 Using Mongo URI:", EnvMongoURI())
 	clientOpts := options.Client().
 		ApplyURI(EnvMongoURI()).
 		SetServerAPIOptions(options.ServerAPI(options.ServerAPIVersion1))
