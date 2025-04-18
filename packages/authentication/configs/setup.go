@@ -10,41 +10,30 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-const (
-	databaseName      = "golangAPI"
-	connectionTimeout = 20 * time.Second
-)
-
-// ConnectDB establishes connection with MongoDB
 func ConnectDB() *mongo.Client {
-	ctx, cancel := context.WithTimeout(context.Background(), connectionTimeout)
-	defer cancel()
+    ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+    defer cancel()
+		serverAPI := options.ServerAPI(options.ServerAPIVersion1)
+  	clientOpts := options.Client().ApplyURI(EnvMongoURI()).SetServerAPIOptions(serverAPI)
 
-	// Configure MongoDB client
-	fmt.Println("🔗 Using Mongo URI:", EnvMongoURI())
-	clientOpts := options.Client().
-		ApplyURI(EnvMongoURI()).
-		SetServerAPIOptions(options.ServerAPI(options.ServerAPIVersion1))
+    client, err := mongo.Connect(ctx, clientOpts)
+    if err != nil {
+        log.Fatalf("❌ Failed to connect to MongoDB: %v", err)
+    }
 
-	// Connect to MongoDB
-	client, err := mongo.Connect(ctx, clientOpts)
-	if err != nil {
-		log.Fatalf("❌ Failed to connect to MongoDB: %v", err)
-	}
+    // Ping the database
+    if err := client.Ping(ctx, nil); err != nil {
+        log.Fatalf("❌ MongoDB ping failed: %v", err)
+    }
 
-	// Verify connection
-	if err := client.Ping(ctx, nil); err != nil {
-		log.Fatalf("❌ MongoDB ping failed: %v", err)
-	}
-
-	log.Println("✅ Successfully connected to MongoDB")
-	return client
+    fmt.Println("✅ Connected to MongoDB")
+    return client
 }
 
-// DB holds the MongoDB client
+// Global DB client instance
 var DB *mongo.Client = ConnectDB()
 
-// GetCollection returns a MongoDB collection
+// GetCollection returns a MongoDB collection by name
 func GetCollection(client *mongo.Client, collectionName string) *mongo.Collection {
-	return client.Database(databaseName).Collection(collectionName)
+    return client.Database("golangAPI").Collection(collectionName)
 }
