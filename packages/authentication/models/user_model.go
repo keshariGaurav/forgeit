@@ -12,4 +12,5 @@ type User struct {
 	LinkedIn string             `json:"linkedin,omitempty" validate:"required,url"`
 	Twitter  string             `json:"twitter,omitempty" validate:"url"`
 	DOB      string             `json:"dob,omitempty" validate:"required,datetime=2006-01-02"`
+	Resume   string             `json:"resume,omitempty"`
 }
