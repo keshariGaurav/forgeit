@@ -32,6 +32,7 @@ func CreateUser(c *fiber.Ctx) error {
 	twitter := c.FormValue("twitter")
 	dob := c.FormValue("dob")
 	fileHeader, err := c.FormFile("resume")
+	
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(responses.UserResponse{
 			Status:  http.StatusBadRequest,
@@ -49,6 +50,16 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 	defer file.Close()
+
+	var user models.User
+	err = userCollection.FindOne(ctx, bson.M{"email": email}).Decode(&user)
+	if err == nil {
+		return c.Status(http.StatusInternalServerError).JSON(responses.UserResponse{
+			Status:  http.StatusInternalServerError,
+			Message: "Failed to save user - user already exists",
+			Data:    &fiber.Map{"data": "User with this email already exists"},
+		})
+	}
 
 	s3Client, bucketName := utils.InitS3()
 	resumeURL, err := utils.UploadToS3(s3Client, bucketName, file, fileHeader.Filename)
