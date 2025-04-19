@@ -9,6 +9,12 @@ import (
 
 var SecretKey = []byte(configs.JWTSecretKey())
 
+
+type JWTClaims struct {
+	Username string `json:"username"`
+	jwt.RegisteredClaims
+}
+
 func GenerateJWT(username string) (string, error) {
 	claims := jwt.MapClaims{
 		"username": username,

@@ -25,7 +25,7 @@ func Protected() fiber.Handler {
 		if err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid or expired token"})
 		}
-		c.Locals("user", claims)
+		c.Locals("username", claims["username"])
 		return c.Next()
 	}
 }
